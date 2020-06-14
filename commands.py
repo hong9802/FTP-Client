@@ -1,4 +1,5 @@
 import sys
+from helper import refector
 
 def check_commands(command, ftp):
     command = command.split()
@@ -9,6 +10,8 @@ def check_commands(command, ftp):
             cd_command(command, ftp)
         elif(command[0] == "exit"):
             exit_command()
+        elif(command[0] == "get"):
+            get_command(command, ftp)
     except IndexError as e:
         print(e)
 
@@ -21,3 +24,10 @@ def cd_command(command, ftp):
 def exit_command():
     print("Exit...")
     sys.exit(0)
+
+def get_command(command, ftp):
+    filename = refector.get_filename(command[1])
+    filepath = refector.get_filepath(command[1])
+    fd = open(filename, "wb")
+    ftp.retrbinary("RETR " + filepath + filename, fd.write)
+    fd.close()
