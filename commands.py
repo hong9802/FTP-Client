@@ -33,13 +33,17 @@ def exit_command():
 def get_command(command, ftp):
     filename = refector.get_filename(command[1])
     filepath = refector.get_filepath(command[1])
+    if(filepath == "/"):
+        filepath = ftp.pwd() + "/"
     fd = open(filename, "wb")
     ftp.retrbinary("RETR " + filepath + filename, fd.write)
     fd.close()
 
 def upload_command(command, ftp):
-    up_file = command[1]
-    filename = refector.get_filename(up_file)
-    path = command[2]
-    fd = open(up_file, "rb")
-    ftp.storbinary("STOR " + path + "/"+ filename, fd)
+    if(len(command) == 2):
+        path = ""
+    else:
+        path = command[2]
+    filename = refector.get_filename(command[1])
+    fd = open(command[1], "rb")
+    ftp.storbinary("STOR " + path + "/" + filename, fd)
