@@ -15,6 +15,12 @@ def check_commands(command, ftp):
             get_command(command, ftp)
         elif(command[0] == "upload"):
             upload_command(command, ftp)
+        elif(command[0] == "mkdir"):
+            mkdir_command(command, ftp)
+        elif(command[0] == "rmdir"):
+            rmdir_command(command,ftp)
+        elif(command[0] == "rm"):
+            rm_command(command, ftp)
     except IndexError as e:
         print(e)
     except ftplib.error_perm as e:
@@ -47,3 +53,12 @@ def upload_command(command, ftp):
     filename = refector.get_filename(command[1])
     fd = open(command[1], "rb")
     ftp.storbinary("STOR " + path + "/" + filename, fd)
+
+def mkdir_command(command, ftp):
+    ftp.mkd(command[1])
+
+def rmdir_command(command, ftp):
+    ftp.rmd(command[1])
+
+def rm_command(command, ftp):
+    ftp.delete(command[1])
