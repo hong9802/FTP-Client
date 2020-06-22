@@ -1,10 +1,11 @@
 from ftplib import FTP, error_perm
-from commands import check_commands
+from commands import commands_dispatcher
 import socket
 import getpass
 
 if __name__ == "__main__":
     password_incorret = False
+    commands_dispatcher = commands_dispatcher()
     ftp_server = str(input("Insert FTP Server(No Port) : "))
     ftp_port = int(input("Insert FTP Port(default : 21) : "))
     ftp = FTP()
@@ -29,5 +30,5 @@ if __name__ == "__main__":
             user_pw = getpass.getpass("Insert User PW : ")
     while True:
         command = input(">>> ")
-        check_commands(command, ftp)
+        commands_dispatcher.dispatch(command, ftp)
     ftp.close()
