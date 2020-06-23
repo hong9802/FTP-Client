@@ -21,8 +21,13 @@ class commands_dispatcher:
         fd = open(filename, "wb")
         ftp.retrbinary("RETR " + filepath + filename, fd.write)
         fd.close()
+        print(filename + " download finish")
 
     def upload_command(self, command, ftp):
+        """
+        upload uploading_file upload_path
+        ex) upload C:\test.png /sdcard/test
+        """
         if(len(command) == 2):
             path = ""
         else:
@@ -30,6 +35,7 @@ class commands_dispatcher:
         filename = refector.get_filename(command[1])
         fd = open(command[1], "rb")
         ftp.storbinary("STOR " + path + "/" + filename, fd)
+        print(filename + " upload finish")
 
     def mkdir_command(self, command, ftp):
         ftp.mkd(command[1])

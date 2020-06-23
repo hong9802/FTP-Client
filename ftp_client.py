@@ -29,6 +29,9 @@ if __name__ == "__main__":
             print("Wrong Password... Please enter again!")
             user_pw = getpass.getpass("Insert User PW : ")
     while True:
-        command = input(">>> ")
-        commands_dispatcher.dispatch(command, ftp)
+        try:
+            command = input(">>> ")
+            commands_dispatcher.dispatch(command, ftp)
+        except error_perm as e:
+            print(e)
     ftp.close()
